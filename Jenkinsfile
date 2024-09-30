@@ -1,19 +1,16 @@
 pipeline{
     agent { label 'my-jenkins-agent' }
     stages{
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Player01Sid/cms.git'
-                sh 'pwd'
-                sh 'ls -l'
-            }
-        }
+        //stage('Checkout') {
+        //    steps {
+        //        git branch: 'main', url: 'https://github.com/Player01Sid/cms.git'
+        //    }
+        //}
         stage('Build packages'){
             steps{
                 echo "Building Node package"
                 sh '''
                     cd ./home
-                    ls -l
                     npm i
                     npm run build
                 '''
@@ -24,8 +21,6 @@ pipeline{
                 echo "Building docker images"
                 sh '''
                     cd /home/jenkins/workspace/cms-pipeline/home
-                    pwd
-                    ls -l
                     docker build . -t cms-home
                     cd ../wordpress
                     docker build . -t cms-wordpress
