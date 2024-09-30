@@ -1,10 +1,8 @@
 FROM node:alpine
-
+RUN mkdir -p /app/dist
 WORKDIR /app
-COPY . /app
+COPY ./dist/ ./dist/
 
-RUN npm install --omit=dev
-RUN npm install --save-dev vite
-CMD npm run dev
-#CMD serve -s build -l 3000
+RUN npm i -g serve
+CMD serve -s dist/ -l 3000
 
