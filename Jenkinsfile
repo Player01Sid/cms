@@ -32,9 +32,9 @@ pipeline{
                 echo "Deploying"
                 
                 sh '''
-                    docker images
-                    docker run -d -p 3000:3000 cms-home
-                    docker run -d -p 81:80 cms-wordpress
+                    docker stop cms-home cms-wordpress
+                    docker run -d -p 3000:3000 --name cms-home cms-home
+                    docker run -d -p 81:80 --name cms-wordpress cms-wordpress
                 '''
             }
         }
