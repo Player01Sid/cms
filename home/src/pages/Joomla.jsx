@@ -6,7 +6,7 @@ export default function Joomla() {
     <div>
       <h2>Joomla</h2>
       <Link to="/">Home</Link>
-      <Link to="/wordpress">Wordpress</Link>
+      <a href="http://103.119.171.158:81/">Wordpress</a>
     </div>
   );
 }
