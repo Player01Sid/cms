@@ -5,8 +5,8 @@ export default function Home() {
   return (
     <div>
       <h2>Welcome to my website!</h2>
-      <Link to="/joomla">Joomla</Link>
-      <Link to="/wordpress">Wordpress</Link>
+      <a href="http://103.119.171.158:81/">Wordpress</a>
+      <a href="http://103.119.171.158:82/">Joomla</a>
     </div>
   );
 }
