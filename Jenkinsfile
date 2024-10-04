@@ -11,8 +11,8 @@ pipeline{
                 echo "Building Node package"
                 script{
                     dir('/home/jenkins/workspace/cms-pipeline/home'){
-                        npm i
-                        npm run build
+                        sh 'npm i'
+                        sh 'npm run build'
                     }
                 }
             }
@@ -22,10 +22,10 @@ pipeline{
                 echo "Building docker images"
                 script{
                     dir('/home/jenkins/workspace/cms-pipeline/home'){
-                        docker build . -t cms-home
+                        sh 'docker build . -t cms-home'
                     }
                     dir('/home/jenkins/workspace/cms-pipeline/wordpress'){
-                        docker build . -t cms-wordpress
+                        sh 'docker build . -t cms-wordpress'
                     }
                 }
             }
