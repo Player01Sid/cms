@@ -30,6 +30,21 @@ pipeline{
                 }
             }
         }
+        stage('Docker push'){
+            steps{
+                echo "Pushing docker images"
+                script{
+                    withCredentials([usernamePassword(credentialsId: 'docker_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
+                        sh "docker tag cms-home:latest $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
+                        sh "docker tag cms-wordpress:latest $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
+                        sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
+                        sh "docker push $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
+                        sh "docker push $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
+                    }
+                }
+            }
+        }
+
         stage('Deploy'){
             steps{
                 echo "Deploying"
