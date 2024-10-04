@@ -52,9 +52,9 @@ pipeline{
                     withCredentials([sshUserPrivateKey(credentialsId: 'git_ssh', keyVariable: 'SSH_KEY')]) {
                         sh "git clone git@github.com:Player01Sid/cms-helm.git"
                         dir(cms-helm) {
-                            sh """ 
+                            sh ''' 
                                 sed -i 's|tag: .*|tag: $${env.BUILD_ID}|g' values.yaml
-                            """
+                            '''
                             sh '''
                                git config user.name "Player01Sid"
                                git config user.email "siddharth1012004@gmail.com"
