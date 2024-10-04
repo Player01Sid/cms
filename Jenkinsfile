@@ -9,32 +9,32 @@ pipeline{
         stage('Build packages'){
             steps{
                 echo "Building Node package"
-                sh '''
+                script{
                     cd ./home
                     npm i
                     npm run build
-                '''
+                }
             }
         }
         stage('Docker build'){
             steps{
                 echo "Building docker images"
-                sh '''
+                script{
                     cd /home/jenkins/workspace/cms-pipeline/home
                     docker build . -t cms-home
                     cd ../wordpress
                     docker build . -t cms-wordpress
-                '''
+                }
             }
         }
         stage('Deploy'){
             steps{
                 echo "Deploying"
                 
-                sh '''
+                script{
                     docker run -d -p 3000:3000 cms-home
                     docker run -d -p 81:80 cms-wordpress
-                '''
+                }
             }
         }
         
