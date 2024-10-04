@@ -52,8 +52,7 @@ pipeline{
                     withCredentials([sshUserPrivateKey(credentialsId: 'git_ssh', keyVariable: 'SSH_KEY')]) {
                         sh "git clone git@github.com:Player01Sid/cms-helm.git"
                         dir(cms-helm) {
-                            sh """
-                                //sed -i 's|image: ${DOCKER_IMAGE_PREFIX}/cms-home:.*|image: ${DOCKER_IMAGE_PREFIX}/cms-home:${env.BUILD_ID}|g' deployment.yaml
+                            sh """ 
                                 sed -i 's|tag: .*|tag: $${env.BUILD_ID}|g' values.yaml
                             """
                             sh '''
