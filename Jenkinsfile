@@ -61,7 +61,7 @@ pipeline{
                                git config user.email "siddharth1012004@gmail.com"
                                git add -A
                                git commit -m "Update image tags to ${env.BUILD_ID}"
-                               git push origin main
+                               git push origin master
                             '''
                         }
                     }
