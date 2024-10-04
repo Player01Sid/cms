@@ -10,9 +10,10 @@ pipeline{
             steps{
                 echo "Building Node package"
                 script{
-                    cd ./home
-                    npm i
-                    npm run build
+                    dir('/home/jenkins/workspace/cms-pipeline/home'){
+                        npm i
+                        npm run build
+                    }
                 }
             }
         }
@@ -20,21 +21,22 @@ pipeline{
             steps{
                 echo "Building docker images"
                 script{
-                    cd /home/jenkins/workspace/cms-pipeline/home
-                    docker build . -t cms-home
-                    cd ../wordpress
-                    docker build . -t cms-wordpress
+                    dir('/home/jenkins/workspace/cms-pipeline/home'){
+                        docker build . -t cms-home
+                    }
+                    dir('/home/jenkins/workspace/cms-pipeline/wordpress'){
+                        docker build . -t cms-wordpress
+                    }
                 }
             }
         }
         stage('Deploy'){
             steps{
                 echo "Deploying"
-                
-                script{
-                    docker run -d -p 3000:3000 cms-home
-                    docker run -d -p 81:80 cms-wordpress
-                }
+                //script{
+                //    docker run -d -p 3000:3000 cms-home
+                //    docker run -d -p 81:80 cms-wordpress
+                //}
             }
         }
         
