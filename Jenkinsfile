@@ -45,13 +45,27 @@ pipeline{
             }
         }
 
-        stage('Deploy'){
+        stage('Updating Repo'){
             steps{
-                echo "Deploying"
-                //script{
-                //    docker run -d -p 3000:3000 cms-home
-                //    docker run -d -p 81:80 cms-wordpress
-                //}
+                echo "Updating Repo"
+                script{
+                    withCredentials([sshUserPrivateKey(credentialsId: 'git_ssh', keyVariable: 'SSH_KEY')]) {
+                        sh "git clone git@github.com:Player01Sid/cms-helm.git"
+                        dir(cms-helm) {
+                            sh """
+                                //sed -i 's|image: ${DOCKER_IMAGE_PREFIX}/cms-home:.*|image: ${DOCKER_IMAGE_PREFIX}/cms-home:${env.BUILD_ID}|g' deployment.yaml
+                                sed -i 's|tag: .*|tag: $${env.BUILD_ID}|g' values.yaml
+                            """
+                            sh '''
+                               git config user.name "Player01Sid"
+                               git config user.email "siddharth1012004@gmail.com"
+                               git add -A
+                               git commit -m "Update image tags to ${env.BUILD_ID}"
+                               git push origin main
+                            '''
+                        }
+                    }
+                }
             }
         }
         
