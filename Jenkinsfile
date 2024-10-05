@@ -1,6 +1,6 @@
 pipeline{
     agent { label 'my-jenkins-agent' }
-    environtment{
+    environment{
         HELM_URL='https://github.com/Player01Sid/cms-helm.git'
         BRANCH='master'
     }
