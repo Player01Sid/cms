@@ -60,7 +60,7 @@ pipeline{
                             cd cms-helm
                             git checkout $BRANCH
                         '''
-                        //dir(cms-helm') {
+                        dir('cms-helm') {
                             sh ''' 
                                 sed -i 's|tag: .*|tag: $${env.BUILD_ID}|g' values.yaml
                             '''
@@ -71,7 +71,7 @@ pipeline{
                                git commit -m "Update image tags to ${env.BUILD_ID}"
                                git push https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git $BRANCH
                             '''
-                        //}
+                        }
                     }
                 }
             }
