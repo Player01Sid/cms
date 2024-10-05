@@ -1,5 +1,11 @@
 pipeline{
-    agent { label 'my-jenkins-agent' }
+    //agent { label 'my-jenkins-agent' }
+    agent{
+        docker {
+            image 'player01sid/my-jenkins-agent'
+            alwaysPull true  // Ensures the image is pulled every time
+        }
+    }
     stages{
         //stage('Checkout') {
         //    steps {
