@@ -1,5 +1,9 @@
 pipeline{
     agent { label 'my-jenkins-agent' }
+    environtment{
+        HELM_URL='https://github.com/Player01Sid/cms-helm.git'
+        BRANCH='master'
+    }
     
     stages{
         //stage('Checkout') {
@@ -50,8 +54,12 @@ pipeline{
             steps{
                 echo "Updating Repo"
                 script{
-                    withCredentials([sshUserPrivateKey(credentialsId: 'git_ssh', keyVariable: 'SSH_KEY')]) {
-                        sh "git clone git@github.com:Player01Sid/cms-helm.git"
+                    withCredentials([string(credentialsId: 'git_token', keyVariable: 'GIT_TOKEN')]) {
+                        sh '''
+                            git clone https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git
+                            cd cms-helm
+                            git checkout $BRANCH
+                        '''
                         dir(cms-helm) {
                             sh ''' 
                                 sed -i 's|tag: .*|tag: $${env.BUILD_ID}|g' values.yaml
@@ -61,7 +69,7 @@ pipeline{
                                git config user.email "siddharth1012004@gmail.com"
                                git add -A
                                git commit -m "Update image tags to ${env.BUILD_ID}"
-                               git push origin master
+                               git push https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git $BRANCH
                             '''
                         }
                     }
