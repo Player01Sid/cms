@@ -29,9 +29,9 @@ pipeline{
                     dir('/home/jenkins/workspace/cms-pipeline/home'){
                         sh 'docker build . -t cms-home'
                     }
-                    dir('/home/jenkins/workspace/cms-pipeline/wordpress'){
-                        sh 'docker build . -t cms-wordpress'
-                    }
+                    //dir('/home/jenkins/workspace/cms-pipeline/wordpress'){
+                    //    sh 'docker build . -t cms-wordpress'
+                    //}
                 }
             }
         }
@@ -41,10 +41,10 @@ pipeline{
                 script{
                     withCredentials([usernamePassword(credentialsId: 'docker_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
                         sh "docker tag cms-home:latest $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
-                        sh "docker tag cms-wordpress:latest $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
+                        //sh "docker tag cms-wordpress:latest $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
                         sh "docker push $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
-                        sh "docker push $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
+                        //sh "docker push $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
                     }
                 }
             }
