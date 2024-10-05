@@ -54,7 +54,7 @@ pipeline{
             steps{
                 echo "Updating Repo"
                 script{
-                    withCredentials([string(credentialsId: 'git_token', keyVariable: 'GIT_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'git_token', variable: 'GIT_TOKEN')]) {
                         sh '''
                             git clone https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git
                             cd cms-helm
