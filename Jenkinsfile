@@ -68,7 +68,7 @@ pipeline{
                                git config user.name "Player01Sid"
                                git config user.email "siddharth1012004@gmail.com"
                                git add -A
-                               git commit -m "Update image tags to ${env.BUILD_ID}"
+                               git commit -m "Update image tags to $BUILD_ID"
                                git push https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git $BRANCH
                             '''
                         }
