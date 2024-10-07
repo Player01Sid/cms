@@ -1,8 +1,9 @@
 pipeline{
     agent { label 'my-jenkins-agent' }
     environment{
-        HELM_URL='https://github.com/Player01Sid/cms-helm.git'
+        HELM_PATH='Player01Sid/cms-helm.git'
         BRANCH='master'
+        MAJ_VER='1.0'
     }
     
     stages{
@@ -43,7 +44,7 @@ pipeline{
                         sh "docker tag cms-home:latest $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
                         //sh "docker tag cms-wordpress:latest $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
-                        sh "docker push $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
+                        sh "docker push $DOCKER_USERNAME/cms-home:$MAJ_VER.${env.BUILD_ID}"
                         //sh "docker push $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
                     }
                 }
@@ -56,13 +57,13 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: 'git_token', variable: 'GIT_TOKEN')]) {
                         sh '''
-                            git clone https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git
+                            git clone https://x-access-token:$GIT_TOKEN@github.com/$HELM_PATH
                             cd cms-helm
                             git checkout $BRANCH
                         '''
                         dir('cms-helm') {
                             sh ''' 
-                                sed -i "s|tag: .*|tag: 1.0.$BUILD_ID|g" values.yaml
+                                sed -i "s|tag: .*|tag: $MAJ_VER.$BUILD_ID|g" values.yaml
                             '''
                             sh '''
                                git config user.name "Player01Sid"
