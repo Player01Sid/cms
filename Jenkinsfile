@@ -62,7 +62,7 @@ pipeline{
                         '''
                         dir('cms-helm') {
                             sh ''' 
-                                sed -i "s|tag: .*|tag: $BUILD_ID|g" values.yaml
+                                sed -i "s|tag: .*|tag: 1.0.$BUILD_ID|g" values.yaml
                             '''
                             sh '''
                                git config user.name "Player01Sid"
