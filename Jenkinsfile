@@ -41,7 +41,7 @@ pipeline{
                 echo "Pushing docker images"
                 script{
                     withCredentials([usernamePassword(credentialsId: 'docker_creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
-                        sh "docker tag cms-home:latest $DOCKER_USERNAME/cms-home:${env.BUILD_ID}"
+                        sh "docker tag cms-home:latest $DOCKER_USERNAME/cms-home:$MAJ_VER.${env.BUILD_ID}"
                         //sh "docker tag cms-wordpress:latest $DOCKER_USERNAME/cms-wordpress:${env.BUILD_ID}"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
                         sh "docker push $DOCKER_USERNAME/cms-home:$MAJ_VER.${env.BUILD_ID}"
@@ -69,7 +69,7 @@ pipeline{
                                git config user.name "Player01Sid"
                                git config user.email "siddharth1012004@gmail.com"
                                git add -A
-                               git commit -m "Update image tags to $BUILD_ID"
+                               git commit -m "Updated image tags to $MAJ_VER.$BUILD_ID"
                                git push https://x-access-token:$GIT_TOKEN@github.com/Player01Sid/cms-helm.git $BRANCH
                             '''
                         }
