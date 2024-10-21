@@ -17,8 +17,7 @@ pipeline{
                 echo "Building Node package"
                 script{
                     dir('/home/jenkins/workspace/cms-pipeline/home'){
-                        sh 'npm i'
-                        sh 'npm run build'
+                       sh 'build.sh'
                     }
                 }
             }
